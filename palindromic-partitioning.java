@@ -51,4 +51,48 @@ class PalindromicPartitioning{
     }
   }
 }
-// TC: O(2^n), SC: O(n)
+// TC: O(n*2^n), SC: O(n)
+
+
+
+import java.util.*;
+
+public class MinCuts {
+   // public static boolean isPalindrome(String s, int i, int j) {
+   //    if (i > j) return true;
+   //    if (s.charAt(i) != s.charAt(j))
+   //       return false;
+   //    return isPalindrome(s, i + 1, j - 1);
+   // }
+
+   public static boolean isPalindrome(String s, int i, int j){
+      while(i < j){
+        if (s.charAt(i) != s.charAt(j))
+          return false;
+        i += 1;
+        j -= 1;
+      }
+      return true;
+   }
+
+   public static int dfs(String s, int i, int j, int[][] dp) {
+      // base case
+      if (i == j || isPalindrome(s, i, j)) return 0;
+      if (dp[i][j] != -1) return dp[i][j];
+      // recursive case
+      int result = j - i + 1;
+      for (int k = i; k < j; k++) {
+         int totalCuts = 1 + dfs(s, i, k, dp) + dfs(s, k + 1, j, dp);
+         result = Math.min(result, totalCuts);
+      }
+      return dp[i][j] = result;
+   }
+   public static int minCuts(String arr) {
+      int n = arr.length();
+      int[][] dp = new int[n][n];
+      for (int[] row : dp) Arrays.fill(row, -1);
+      return dfs(arr, 0, n - 1, dp);
+   }
+}
+
+// TC: O(n^3), SC: O(n^2)
