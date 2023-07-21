@@ -1,7 +1,4 @@
 
-
-//User function Template for Java
-
 class Solution {
     static void constructPalTable(String s, boolean[][] palTable) {
         int n = s.length();
